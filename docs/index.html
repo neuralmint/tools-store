@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuralMint CLI Toolkit — 6 Crypto Tools, One Bundle</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --border: #1e1e2e;
+      --text: #e0e0e8;
+      --muted: #7c7c8a;
+      --accent: #6c5ce7;
+      --accent2: #00d4aa;
+      --sol: #9945ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+    header {
+      text-align: center;
+      padding: 4rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    header p { color: var(--muted); font-size: 1.1rem; }
+    .hero {
+      text-align: center;
+      padding: 3rem 0;
+    }
+    .hero .price {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--accent2);
+    }
+    .hero .price-sub {
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 1.5rem 0;
+      transition: all 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,92,231,0.3); }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem 0;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .tool-card h3 { color: var(--accent2); margin-bottom: 0.5rem; }
+    .tool-card p { color: var(--muted); font-size: 0.9rem; }
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .price-card.featured {
+      border-color: var(--accent);
+      position: relative;
+    }
+    .price-card.featured::before {
+      content: 'BEST VALUE';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    .price-card h3 { font-size: 1.5rem; }
+    .price-card .price-amount { font-size: 2rem; font-weight: bold; color: var(--accent2); margin: 0.5rem 0; }
+    .price-card ul { list-style: none; margin: 1rem 0; }
+    .price-card li { padding: 0.3rem 0; color: var(--muted); font-size: 0.9rem; }
+    .price-card li::before { content: '✓ '; color: var(--accent2); }
+    .wallet {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .wallet code {
+      display: block;
+      background: #000;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem auto;
+      word-break: break-all;
+      font-size: 0.85rem;
+      max-width: 500px;
+      border: 1px solid var(--border);
+    }
+    .wallet .copy-btn {
+      background: var(--border);
+      border: none;
+      color: var(--text);
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .wallet .copy-btn:hover { background: #2a2a3a; }
+    .faq { padding: 2rem 0; }
+    .faq h2 { margin-bottom: 1.5rem; }
+    .faq-item { margin-bottom: 1rem; }
+    .faq-item h4 { color: var(--accent2); margin-bottom: 0.25rem; }
+    .faq-item p { color: var(--muted); font-size: 0.9rem; }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+    .nav a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .nav a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a href="#tools">Tools</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#payment">Payment</a>
+      <a href="https://dev.to/neuralmint">Blog</a>
+    </nav>
+
+    <header>
+      <h1>NeuralMint CLI Toolkit</h1>
+      <p>6 professional crypto CLI tools. Zero dependencies. MIT licensed.</p>
+    </header>
+
+    <div class="hero">
+      <div class="price">0.1 SOL</div>
+      <div class="price-sub">~$15 — one-time payment, lifetime access</div>
+      <a href="#payment" class="btn">Buy Now →</a>
+      <p style="color:var(--muted);font-size:0.85rem;">No subscription. No hidden fees.</p>
+    </div>
+
+    <div class="hero" style="padding:1rem 0;">
+      <h2 id="tools">What You Get</h2>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <h3>🔍 Token Info</h3>
+        <p>DexScreener data for any token — price, liquidity, volume, across 20+ chains. Supports Solana, ETH, BSC, and more.</p>
+      </div>
+      <div class="tool-card">
+        <h3>📰 Crypto News</h3>
+        <p>Latest headlines from CoinDesk, Cointelegraph, and CryptoSlate. Filter by source, output JSON.</p>
+      </div>
+      <div class="tool-card">
+        <h3>💰 Wallet Tracker</h3>
+        <p>Check SOL & ETH balances from terminal. Live USD pricing via CoinGecko. No API keys needed for SOL.</p>
+      </div>
+      <div class="tool-card">
+        <h3>⛽ Gas Checker</h3>
+        <p>Real-time ETH & SOL gas fees. Slow/average/fast prices, priority fees, TPS data.</p>
+      </div>
+      <div class="tool-card">
+        <h3>📊 Portfolio Rebalance</h3>
+        <p>Calculate exactly what to buy/sell to hit target allocations. Live prices, config file support.</p>
+      </div>
+      <div class="tool-card">
+        <h3>🔮 Crypto Sentiment</h3>
+        <p>Reddit sentiment analysis for any coin. VADER-powered, real-time data from top crypto subreddits.</p>
+      </div>
+    </div>
+
+    <div class="hero" style="padding:1rem 0;">
+      <h2 id="pricing">Pricing</h2>
+    </div>
+
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Individual</h3>
+        <div class="price-amount">0.02 SOL</div>
+        <p style="color:var(--muted);font-size:0.85rem;">~$3</p>
+        <ul>
+          <li>1 tool of your choice</li>
+          <li>Single file download</li>
+          <li>MIT license</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#payment" style="color:var(--accent2);">Buy →</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Bundle</h3>
+        <div class="price-amount">0.1 SOL</div>
+        <p style="color:var(--muted);font-size:0.85rem;">~$15</p>
+        <ul>
+          <li>All 6 tools</li>
+          <li>Lifetime updates</li>
+          <li>MIT license</li>
+          <li>Priority support</li>
+          <li>Future tools free</li>
+        </ul>
+        <a href="#payment" class="btn" style="margin:0.5rem 0;">Buy Bundle</a>
+      </div>
+      <div class="price-card">
+        <h3>Enterprise</h3>
+        <div class="price-amount">2 SOL</div>
+        <p style="color:var(--muted);font-size:0.85rem;">~$300</p>
+        <ul>
+          <li>Custom tool development</li>
+          <li>Private repo access</li>
+          <li>White-label license</li>
+          <li>Telegram bot integration</li>
+          <li>24h response support</li>
+        </ul>
+        <a href="#payment" style="color:var(--accent2);">Contact →</a>
+      </div>
+    </div>
+
+    <div class="wallet" id="payment">
+      <h2>Payment</h2>
+      <p>Send SOL to the address below. Download link is sent automatically.</p>
+      <p style="font-size:0.85rem;color:var(--muted);margin:0.5rem 0;">Send exactly 0.1 SOL for the bundle, or 0.02 SOL per tool (specify which tool).</p>
+      <code>4TGyiYBjaYhFFPNYyCoJjf16ctUsWVBiMR1FXQxEfhWi</code>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText('4TGyiYBjaYhFFPNYyCoJjf16ctUsWVBiMR1FXQxEfhWi').then(()=>this.textContent='Copied!').catch(()=>this.textContent='Failed')" onmouseout="setTimeout(()=>this.textContent='Copy Address',1500)">Copy Address</button>
+      <p style="margin-top:1rem;font-size:0.85rem;color:var(--muted);">
+        After payment, DM <strong>@neuralmint</strong> on Telegram with the tx hash to get your download.
+      </p>
+    </div>
+
+    <div class="faq">
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <h4>Do I need to install anything?</h4>
+        <p>Just Python 3.7+. All tools use only the standard library — no pip installs needed.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I resell these tools?</h4>
+        <p>Individual/Bundle purchases are for personal use. Enterprise tier includes white-label licensing.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What chains are supported?</h4>
+        <p>Solana, Ethereum, BSC, and 20+ chains through DexScreener. Gas checker covers ETH + SOL.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do I get updates?</h4>
+        <p>Bundle buyers get lifetime updates. Individual purchases get the current version only.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>Built by <a href="https://github.com/neuralmint" style="color:var(--accent2);">neuralmint</a> • MIT Licensed Tools • Accepting SOL Only</p>
+      <p style="margin-top:0.5rem;">Contact: Telegram @neuralmint</p>
+    </footer>
+  </div>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
